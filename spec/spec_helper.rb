@@ -1,6 +1,6 @@
 require 'amazing_print'
 
-require_relative '../lib/dux-mattr'
+require_relative '../lib/class-mattr'
 
 # basic config
 RSpec.configure do |config|

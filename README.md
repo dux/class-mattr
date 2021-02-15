@@ -1,20 +1,20 @@
 # Method attributes
 
-dux-mattr gem provides simple way to set and get method attributes.
+class-mattr gem provides simple way to set and get method attributes.
 
 ## Installation
 
 to install
 
-`gem install dux-mattr`
+`gem install class-mattr`
 
 or in Gemfile
 
-`gem 'dux-mattr'`
+`gem 'class-mattr'`
 
 and to use
 
-`require 'dux-mattr'`
+`require 'class-mattr'`
 
 ## How to use
 
@@ -42,9 +42,14 @@ end
 Protect all urls in a way that user has to have a session (`current_user` is defined),
 but allow to bypass that rule if `mattr.guest_access` is defined
 
+Optionaly you can define array of method names as sysbols for `mattr` method, to be able to use them without `mattr.` prefix. 
+
 ```ruby
 class ApplicationController < ActionController::Base
   include ClassMattr
+
+  # allow usage without mattr prefix
+  mattr [:guest_access]
 
   before_action do
     # get all method attributes
@@ -57,7 +62,9 @@ class ApplicationController < ActionController::Base
 end
 
 class UserController < ApplicationController
-  mattr.guest_access
+  # mattr.guest_access, aliased trough class method
+  # default argument is true, if nil defined
+  guest_access
   def login
     # ...
   end
@@ -78,7 +85,7 @@ After checking out the repo, run `bundle install` to install dependencies. Then,
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/dux/dux-mattr.
+Bug reports and pull requests are welcome on GitHub at https://github.com/dux/class-mattr.
 This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the
 [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 

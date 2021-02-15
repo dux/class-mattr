@@ -5,11 +5,16 @@ require 'spec_helper'
 class ClassA
   include ClassMattr
 
+  mattr [:manual]
+  
   mattr.foo 123
   mattr.foo 456
   mattr.opt name: 'Dux'
   def m1
+  end
 
+  mattr.name 'class-a'
+  def over
   end
 end
 
@@ -20,6 +25,12 @@ class ClassB < ClassA
   end
 
   def m3
+  end
+
+  mattr.name 'class-b'
+  mattr.bool false
+  manual 48
+  def over
   end
 end
 
@@ -55,5 +66,20 @@ describe ClassMattr do
   it 'gets attributes for m1 on ClassC' do
     attrs = ClassC.mattr :m1
     expect(attrs[:foo]).to eq([123, 456])
+  end
+
+  it 'gets last defined method attribute' do
+    attrs = ClassC.mattr :over
+    expect(attrs[:name]).to eq('class-b')
+  end
+
+  it 'gets manualy defined class method values' do
+    attrs = ClassC.mattr :over
+    expect(attrs[:manual]).to eq(48)
+  end
+
+  it 'gets false values' do
+    attrs = ClassC.mattr :over
+    expect(attrs[:bool]).to eq(false)
   end
 end
