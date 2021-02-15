@@ -9,29 +9,29 @@ module ClassMattr
 
     def _set name
       while el = @@mattrs.shift
-        klass, trait, opts = el
+        klass, trait, opts = el[0], el[1].to_sym, el[2]
+
         MATTRS[klass] ||= {}
         el = MATTRS[klass][name.to_sym] ||= {}
 
         if el[trait]
-          # if trait exists, convert to array and push
+          # if trait exists (double define)
+          # convert to array and push
           el[trait] = [el[trait]] unless el[trait].is_a?(Array)
           el[trait].push opts
         else
-          el[trait] = opts || true
+          # default value if true if no argument provided
+          el[trait] = opts.nil? ? true : opts
         end
       end
     end
 
     def _get name
-      out  = {}
-
       for klass in @host.ancestors.map(&:to_s)
-        return out if klass == 'ClassMattr'
-
-        for key, value in (MATTRS.dig(klass, name.to_sym) || {})
-          out[key.to_sym] = value
-        end
+        return {} if klass == 'ClassMattr'
+        
+        hash = MATTRS.dig(klass, name.to_sym)
+        return hash if hash
       end
 
       raise 'ClassMattr not included?'
