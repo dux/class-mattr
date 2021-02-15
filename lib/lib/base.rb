@@ -2,7 +2,15 @@ module ClassMattr
   def self.included base
     def base.mattr name=nil
       if name
-        ::ClassMattr::Proxy.new(self)._get(name)
+        if name.is_a?(Array)
+          for el in name
+            self.define_singleton_method(el) do |*args|
+              ::ClassMattr::Proxy.new(self).send(el, *args)
+            end
+          end
+        else
+          ::ClassMattr::Proxy.new(self)._get(name)
+        end
       else
         ::ClassMattr::Proxy.new(self)
       end
