@@ -17,7 +17,7 @@ module ClassMattr
     end
 
     def base.method_added name
-      ::ClassMattr::Proxy.new(self.class)._set name
+      ::ClassMattr::Proxy.new(self)._set name
       super
     end
 
