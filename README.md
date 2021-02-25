@@ -42,7 +42,7 @@ end
 Protect all urls in a way that user has to have a session (`current_user` is defined),
 but allow to bypass that rule if `mattr.guest_access` is defined
 
-Optionaly you can define array of method names as sysbols for `mattr` method, to be able to use them without `mattr.` prefix. 
+Optionaly you can define array of method names as sysbols for `mattr` method, to be able to use them without `mattr.` prefix.
 
 ```ruby
 class ApplicationController < ActionController::Base
@@ -72,6 +72,21 @@ class UserController < ApplicationController
   def profile
     # ...
   end
+end
+```
+
+### Manual hash get
+
+If you need, you can get method attributes hash manualy
+
+```ruby
+class ClassA
+  include ClassMattr
+
+  mattr.foo 123
+  mattr.opt name: 'Dux'
+
+  mattr.get_hash # { foo:123, name: 'Dux' }
 end
 ```
 

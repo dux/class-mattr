@@ -29,12 +29,18 @@ module ClassMattr
     def _get name
       for klass in @host.ancestors.map(&:to_s)
         return {} if klass == 'ClassMattr'
-        
+
         hash = MATTRS.dig(klass, name.to_sym)
         return hash if hash
       end
 
       raise 'ClassMattr not included?'
+    end
+
+    def get_hash
+      name = :__mattr_tmp
+      _set name
+      MATTRS[@host.to_s].delete(name)
     end
 
     def method_missing name, value=nil
