@@ -90,6 +90,32 @@ class ClassA
 end
 ```
 
+### Ruby metaprograming fun
+
+`ClassMattr` is exported as a module and a function too.
+If call `ClassMattr` in a [function context](https://github.com/dux/class-mattr/blob/main/lib/lib/method.rb)
+you can include and define exported methods in one go as `ClassMattr :exported_method1, :exported_method2`.
+
+```ruby
+class ApplicationController < ActionController::Base
+  # same as
+  # include ClassMattr
+  # mattr [:guest_access]
+  ClassMattr :guest_access
+
+  before_action do
+    opts = mattr :login # { guest_access: true }
+  end
+end
+
+class UserController < ApplicationController
+  guest_access
+  def login
+    # ...
+  end
+end
+```
+
 ## Dependency
 
 none

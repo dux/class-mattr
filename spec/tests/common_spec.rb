@@ -3,9 +3,7 @@ require 'spec_helper'
 ###
 
 class ClassA
-  include ClassMattr
-
-  mattr [:manual]
+  ClassMattr :manual
 
   mattr.foo 123
   mattr.foo 456
