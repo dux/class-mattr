@@ -14,15 +14,8 @@ module ClassMattr
         MATTRS[klass] ||= {}
         el = MATTRS[klass][name.to_sym] ||= {}
 
-        if el[trait]
-          # if trait exists (double define)
-          # convert to array and push
-          el[trait] = [el[trait]] unless el[trait].is_a?(Array)
-          el[trait].push opts
-        else
-          # default value if true if no argument provided
-          el[trait] = opts.nil? ? true : opts
-        end
+        # default value if true if no argument provided
+        el[trait] = opts.nil? ? true : opts
       end
     end
 

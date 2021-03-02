@@ -28,7 +28,7 @@ end
 describe ClassMattr do
   it 'gets first attributes' do
     opt = ClassA::STORAGE[:first]
-    expect(opt[:foo]).to eq([123, 456])
+    expect(opt[:foo]).to eq(456)
     expect(opt[:opt]).to eq(name: 'Dux')
   end
 

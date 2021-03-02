@@ -6,7 +6,7 @@ class ClassA
   include ClassMattr
 
   mattr [:manual]
-  
+
   mattr.foo 123
   mattr.foo 456
   mattr.opt name: 'Dux'
@@ -29,6 +29,9 @@ class ClassB < ClassA
 
   mattr.name 'class-b'
   mattr.bool false
+  mattr.is_true
+  mattr.is_true
+  mattr.is_true
   manual 48
   def over
   end
@@ -43,7 +46,7 @@ end
 describe ClassMattr do
   it 'gets m1 attributes' do
     attrs = ClassB.mattr :m1
-    expect(attrs[:foo]).to eq([123, 456])
+    expect(attrs[:foo]).to eq(456)
     expect(attrs[:opt]).to eq({name: 'Dux'})
   end
 
@@ -65,7 +68,7 @@ describe ClassMattr do
 
   it 'gets attributes for m1 on ClassC' do
     attrs = ClassC.mattr :m1
-    expect(attrs[:foo]).to eq([123, 456])
+    expect(attrs[:foo]).to eq(456)
   end
 
   it 'gets last defined method attribute' do
